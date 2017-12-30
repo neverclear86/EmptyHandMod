@@ -4,6 +4,8 @@ import cpw.mods.fml.common.FMLCommonHandler
 import cpw.mods.fml.common.event.FMLInitializationEvent
 import cpw.mods.fml.common.event.FMLPostInitializationEvent
 import cpw.mods.fml.common.event.FMLPreInitializationEvent
+import net.minecraft.client.Minecraft
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraftforge.common.MinecraftForge
 import net.neverclear.emptyhand.KeyBindings
 import net.neverclear.emptyhand.event.EventHandlerClient
@@ -20,11 +22,7 @@ class ClientProxy : CommonProxy() {
         KeyBindings.load()
     }
 
-    override fun init(event: FMLInitializationEvent) {
-        super.init(event)
-    }
-
-    override fun postInit(event: FMLPostInitializationEvent) {
-        super.postInit(event)
+    override fun getEntityPlayer(): EntityPlayer? {
+        return Minecraft.getMinecraft().thePlayer
     }
 }

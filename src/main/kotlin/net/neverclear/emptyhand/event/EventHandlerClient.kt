@@ -2,24 +2,35 @@ package net.neverclear.emptyhand.event
 
 import cpw.mods.fml.common.eventhandler.EventPriority
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
-import cpw.mods.fml.common.gameevent.InputEvent
+import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent
 import net.minecraft.client.Minecraft
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
+import net.minecraftforge.client.event.MouseEvent
 import net.neverclear.emptyhand.KeyBindings
+import net.neverclear.emptyhand.network.MessageEmptyHand
+import net.neverclear.emptyhand.network.PacketHandler
 
 class EventHandlerClient {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    fun keyPressed(event: InputEvent.KeyInputEvent) {
+    fun keyPressed(event: KeyInputEvent) {
         if (KeyBindings.toEmptyKey.isPressed) {
-            val player = Minecraft.getMinecraft().thePlayer
+            PacketHandler.INSTANCE.sendToServer(MessageEmptyHand(0.toByte()))
+//        } else {
+//            PacketHandler.INSTANCE.sendToServer(MessageEmptyHand(1.toByte()))
+        } else if (Minecraft.getMinecraft().gameSettings.keyBindsHotbar.any { it.isPressed }) {
+            PacketHandler.INSTANCE.sendToServer(MessageEmptyHand(1.toByte()))
+        }
 
-            player.sendChatMessage("Emptyyyyyyyyy")
+//        if (Minecraft.getMinecraft().gameSettings.keyBindsHotbar.any { it.isPressed }) {
+//            PacketHandler.INSTANCE.sendToServer(MessageEmptyHand(1.toByte()))
+//        }
+    }
 
-            // ほぼバグ
-            player.inventory.currentItem = 10
-
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    fun mouseEvent(event: MouseEvent) {
+        if (event.dwheel != 0) {
+            PacketHandler.INSTANCE.sendToServer(MessageEmptyHand(1.toByte()))
         }
     }
+
 }

@@ -5,6 +5,7 @@ import cpw.mods.fml.common.SidedProxy
 import cpw.mods.fml.common.event.FMLInitializationEvent
 import cpw.mods.fml.common.event.FMLPostInitializationEvent
 import cpw.mods.fml.common.event.FMLPreInitializationEvent
+import net.neverclear.emptyhand.network.PacketHandler
 import net.neverclear.emptyhand.proxy.CommonProxy
 import org.apache.logging.log4j.Logger
 
@@ -16,7 +17,7 @@ class EmptyHand {
     companion object {
         @SidedProxy(clientSide = "net.neverclear.emptyhand.proxy.ClientProxy",
                     serverSide = "net.neverclear.emptyhand.proxy.CommonProxy")
-        private lateinit var proxy : CommonProxy
+        lateinit var proxy : CommonProxy
     }
     private lateinit var logger : Logger
 
@@ -26,6 +27,7 @@ class EmptyHand {
         logger = event.modLog
         logger.trace("EmptyHand: preInit")
         proxy.preInit(event)
+        PacketHandler.init()
     }
 
     @Mod.EventHandler

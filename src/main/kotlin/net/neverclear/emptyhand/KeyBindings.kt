@@ -12,7 +12,7 @@ class KeyBindings {
 
 
         fun load() {
-        ClientRegistry.registerKeyBinding(toEmptyKey)
+            ClientRegistry.registerKeyBinding(toEmptyKey)
         }
     }
 
